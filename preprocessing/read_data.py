@@ -45,11 +45,18 @@ def save_dataframe(df, filename):
     print("DataFrame saved to file " + filename + ".pkl.")
 
 
+def load_dataframe(filename):
+    df = pd.read_pickle("data/"+filename+".pkl")
+    print("DateFrame loaded from data/" + filename + ".pkl.")
+    return df
+
+
 def read_training_data():
     root_path = 'data/training/'
     training_data = read_folder_of_xml_files_to_dataframe(root_path)
     training_label = read_txt_file_of_truth(root_path + "/truth.txt")
     training = pd.merge(training_data, training_label, on='User_ID')
+    save_dataframe(training, 'training_df')
     return training
 
 
@@ -57,4 +64,4 @@ def read_test_data():
     rooth_path = 'data/test'
     test_data = read_folder_of_xml_files_to_dataframe(rooth_path)
     test_label = read_txt_file_of_truth('/truth.txt')
-    return, test_data, test_label
+    return test_data, test_label
