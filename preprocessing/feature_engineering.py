@@ -1,6 +1,54 @@
 from read_data import load_dataframe, save_dataframe
 import pandas as pd
+import nltk
+import re
 from sklearn.feature_extraction.text import TfidfVectorizer
+
+# https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1
+# https://en.wikipedia.org/wiki/Unicode_block
+EMOJI_PATTERN = re.compile(
+    "["
+    "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+    "\U0001F300-\U0001F5FF"  # symbols & pictographs
+    "\U0001F600-\U0001F64F"  # emoticons
+    "\U0001F680-\U0001F6FF"  # transport & map symbols
+    "\U0001F700-\U0001F77F"  # alchemical symbols
+    "\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+    "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+    "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+    "\U0001FA00-\U0001FA6F"  # Chess Symbols
+    "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+    "\U00002702-\U000027B0"  # Dingbats
+    "\U000024C2-\U0001F251"
+    "]+"
+)
+
+
+def strip_emoji(text):
+    # http://stackoverflow.com/a/13752628/6762004
+    return re.sub(EMOJI_PATTERN, '<EMOJI>', text)
+
+
+def remove_stopwords(tweet):
+    stopwords = nltk.corpus.stopwords.words('english')
+    # NLTK chaper 4.1
+    tweet_as_list = tweet.split(' ')
+    without_stopwords = [
+        w for w in tweet_as_list if w.lower() not in stopwords]
+    return ' '.join(without_stopwords)
+
+
+def process_tweet(tweet):
+    processed = tweet.lower()
+    processed = re.sub('https([^\s]+)', "<URL>", processed)
+    processed = re.sub('rt @([^\s]+)', '<RT>', processed)
+    processed = re.sub('@([^\s]+)', "<UserMention>", processed)
+    processed = re.sub('#([^\s]+)', '<HashTag>', processed)
+    processed = strip_emoji(processed)
+    processed = processed.replace('\n', ' ')
+    processed = remove_stopwords(processed)
+    processed = processed.replace("[^0-9a-zA-Z:,.?!]+", "")
+    return processed
 
 
 def textual_features(df):
@@ -28,6 +76,9 @@ def textual_features(df):
 
 
 def feature_engineering(df):
+    # Lowercase, replace URLs, etc.
+    df['Tweets'] = df['Tweets'].apply(lambda x: process_tweet(x))
+
     tfidf = TfidfVectorizer(stop_words='english', min_df=0.01)
     X = tfidf.fit_transform(df['Tweets'])
 
@@ -42,4 +93,4 @@ def feature_engineering(df):
 
 df = load_dataframe('training_df')
 with_features = feature_engineering(df)
-save_dataframe(with_features, 'training_df_with_basic_features')
+save_dataframe(with_features, 'training_df_preprocessed_features')
