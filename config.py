@@ -5,5 +5,12 @@ config = {
     'filename_existing_data_df': 'training_df',
 
     'load_preprocessed_dataframe': True,
-    'filename_exisiting_preprocessed_df': 'training_df_preprocessed_features'
+    'filename_exisiting_preprocessed_df': 'training_df_preprocessed_features',
+
+    'validation_set_sizes': [],
+
+    'load_preprocessed_dataframe_of_test_data': True,
+    'filename_exisiting_preprocessed_df_of_test_data': 'test_df_preprocessed_features',
+
+
 }
