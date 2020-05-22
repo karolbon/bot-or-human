@@ -1,4 +1,4 @@
-from read_data import load_dataframe, save_dataframe
+from preprocessing.read_data import load_dataframe, save_dataframe
 import pandas as pd
 import nltk
 import re
@@ -89,8 +89,3 @@ def feature_engineering(df):
     df = textual_features(df)
 
     return df
-
-
-df = load_dataframe('training_df')
-with_features = feature_engineering(df)
-save_dataframe(with_features, 'training_df_preprocessed_features')

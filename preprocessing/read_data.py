@@ -61,7 +61,7 @@ def read_training_data():
 
 
 def read_test_data():
-    rooth_path = 'data/test'
-    test_data = read_folder_of_xml_files_to_dataframe(rooth_path)
-    test_label = read_txt_file_of_truth('/truth.txt')
+    root_path = 'data/test/'
+    test_data = read_folder_of_xml_files_to_dataframe(root_path)
+    test_label = read_txt_file_of_truth(root_path + '/truth.txt')
     return test_data, test_label
