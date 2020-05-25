@@ -1,5 +1,6 @@
 from preprocessing.read_data import load_dataframe, save_dataframe
 import pandas as pd
+import pickle
 import nltk
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -58,10 +59,6 @@ def textual_features(df):
     df['char_count'] = df['Tweets'].apply(lambda x: len(x.replace(" ", "")))
     df['word_density'] = df['word_count'] / (df['char_count'] + 1)
     df['total_length'] = df['Tweets'].apply(len)
-    df['capitals'] = df['Tweets'].apply(
-        lambda comment: sum(1 for c in comment if c.isupper()))
-    df['caps_vs_length'] = df.apply(lambda row: float(
-        row['capitals'])/float(row['total_length']), axis=1)
     df['num_exclamation_marks'] = df['Tweets'].apply(lambda x: x.count('!'))
     df['num_question_marks'] = df['Tweets'].apply(lambda x: x.count('?'))
     df['num_punctuation'] = df['Tweets'].apply(
@@ -75,17 +72,33 @@ def textual_features(df):
     return df
 
 
-def feature_engineering(df):
-    # Lowercase, replace URLs, etc.
-    df['Tweets'] = df['Tweets'].apply(lambda x: process_tweet(x))
+def tfidf_features(df, is_training):
 
-    tfidf = TfidfVectorizer(stop_words='english', min_df=0.01)
-    X = tfidf.fit_transform(df['Tweets'])
+    if is_training:
+        tfidf = TfidfVectorizer(stop_words='english', min_df=0.01)
+
+        X = tfidf.fit_transform(df['Tweets'])
+
+        # Code snippet from https://stackoverflow.com/questions/29788047/keep-tfidf-result-for-predicting-new-content-using-scikit-for-python
+        pickle.dump(tfidf, open("tfidf1.pkl", "wb"))
+
+    else:
+        # Is testing data, have to load Tfidf corpus from what is generated from the training data
+        # in order to get the same features.
+        tfidf = pickle.load(open("tfidf1.pkl", 'rb'))
+        print("corpus:", tfidf, type(tfidf))
+        X = tfidf.transform(df['Tweets'])
 
     # Code snippet from https://stackoverflow.com/questions/43577590/adding-sparse-matrix-from-countvectorizer-into-dataframe-with-complimentary-info
     for i, col in enumerate(tfidf.get_feature_names()):
         df[col] = pd.SparseSeries(X[:, i].toarray().ravel(), fill_value=0)
 
-    df = textual_features(df)
-
     return df
+
+
+def feature_engineering(df, is_training):
+    # Lowercase, replace URLs, etc.
+    df['Tweets'] = df['Tweets'].apply(lambda x: process_tweet(x))
+    df_tfidf = tfidf_features(df, is_training)
+    df_features = textual_features(df_tfidf)
+    return df_features

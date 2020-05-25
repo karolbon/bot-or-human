@@ -22,8 +22,8 @@ def main():
     if config['load_preprocessed_dataframe']:
         df = load_dataframe(config['filename_exisiting_preprocessed_df'])
     else:
-        return
-        # Preprocess dataframe
+        df = feature_engineering(df, is_training=True)
+        save_dataframe(df, 'training_df_preprocessed_features_22_05')
 
     y = df['Label']
     X = df.drop(columns=['Label', 'User_ID', 'Tweets'])
@@ -67,7 +67,7 @@ def main():
         print("")
 
     # Train models on all training data for final predictions on test data
-    """
+
     print("Training final SVM " + str(datetime.now()))
     final_svm_classifier = SVMClassifier()
     final_svm_classifier.classifier.fit(X, y)
@@ -79,7 +79,7 @@ def main():
     print("Training final Random Forest " + str(datetime.now()))
     final_rf_classifier = RandomForestWrapperClassifier()
     final_rf_classifier.classifier.fit(X, y)
-"""
+
     print("Done training final models.")
     if config['load_preprocessed_dataframe_of_test_data']:
         # Load test data frame from file
@@ -103,12 +103,11 @@ def main():
         test_X_pre_features = test.drop(columns=['Label'])
 
         print("Preprocessing test data " + str(datetime.now()))
-        test_X = feature_engineering(test_X_pre_features)
+        test_X = feature_engineering(test_X_pre_features, is_training=False)
 
         # Want to save dataframe with all columns for faster loading and processing
         test_df_for_saving = test_X.copy()
         test_df_for_saving['Label'] = test_y
-        print("TEST DF SAVING COLUMNS", test_df_for_saving.columns)
         save_dataframe(test_df_for_saving, 'test_df_preprocessed_features')
 
         # Drop columns not used for classification
@@ -128,6 +127,14 @@ def main():
     print("Final Naive Bayes accuracy:", final_nb_accuracy)
     print("Final Random Forest accuracy:", final_rf_accuracy)
     print("")
+
+
+def test():
+    train = load_dataframe('training_df_preprocessed_features_22_05')
+    test = load_dataframe('test_df_preprocessed_features')
+
+    print("TRAIN", train)
+    print("TEST", test)
 
 
 if __name__ == "__main__":
