@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support
 
 import matplotlib.pyplot as plt
 
@@ -131,6 +132,8 @@ def main():
     print("Doing final predictions with SVM.", datetime.now())
     final_svm_predictions = final_svm_classifier.classifier.predict(test_X)
     final_svm_accuracy = accuracy_score(test_y, final_svm_predictions)
+    final_svm_metrics = precision_recall_fscore_support(
+        test_y, final_svm_predictions, average='binary')
 
     class_names = ["Bot", "Human"]
     plot_svm = plot_confusion_matrix(final_svm_classifier.classifier,
@@ -142,6 +145,8 @@ def main():
     print("Doing final predictions with Naïve Bayes.", datetime.now())
     final_nb_predictions = final_nb_classifier.classifier.predict(test_X)
     final_nb_accuracy = accuracy_score(test_y, final_nb_predictions)
+    final_nb_metrics = precision_recall_fscore_support(
+        test_y, final_nb_predictions, average='binary')
 
     plot_nb = plot_confusion_matrix(final_nb_classifier.classifier,
                                     test_X, test_y, display_labels=class_names,
@@ -152,6 +157,8 @@ def main():
     print("Doing final predictions with Random Forest.", datetime.now())
     final_rf_predictions = final_rf_classifier.classifier.predict(test_X)
     final_rf_accuracy = accuracy_score(test_y, final_rf_predictions)
+    final_rf_metrics = precision_recall_fscore_support(
+        test_y, final_rf_predictions, average='binary')
 
     plot_rf = plot_confusion_matrix(final_rf_classifier.classifier,
                                     test_X, test_y, display_labels=class_names,
@@ -161,8 +168,18 @@ def main():
 
     # Accuracy for final model
     print("Final SVM accuracy:", final_svm_accuracy)
+    print("Precision, recall, F1-score")
+    print(final_svm_metrics)
+    print("==========")
+
     print("Final Naive Bayes accuracy:", final_nb_accuracy)
+    print("Precision, recall, F1-score")
+    print(final_nb_metrics)
+    print("==========")
+
     print("Final Random Forest accuracy:", final_rf_accuracy)
+    print("Precision, recall, F1-score")
+    print(final_rf_metrics)
     print("")
 
 
