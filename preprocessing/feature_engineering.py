@@ -63,8 +63,6 @@ def textual_features(df):
     df['num_question_marks'] = df['Tweets'].apply(lambda x: x.count('?'))
     df['num_punctuation'] = df['Tweets'].apply(
         lambda x: sum(x.count(w) for w in '.,;:'))
-    df['num_symbols'] = df['Tweets'].apply(
-        lambda x: sum(x.count(w) for w in '*&$%'))
     df['num_unique_words'] = df['Tweets'].apply(
         lambda x: len(set(w for w in x.split())))
     df['words_vs_unique'] = df['num_unique_words'] / df['word_count']
