@@ -166,17 +166,16 @@ def main():
     plot_rf.ax_.set_title("Random Forest")
     plt.savefig('results/rf.png')
 
+    print("\n========== Metrics ==========")
     # Accuracy for final model
     print("Final SVM accuracy:", final_svm_accuracy)
     print("Precision, recall, F1-score")
     print(final_svm_metrics)
     print("==========")
-
     print("Final Naive Bayes accuracy:", final_nb_accuracy)
     print("Precision, recall, F1-score")
     print(final_nb_metrics)
     print("==========")
-
     print("Final Random Forest accuracy:", final_rf_accuracy)
     print("Precision, recall, F1-score")
     print(final_rf_metrics)
