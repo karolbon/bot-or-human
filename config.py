@@ -12,5 +12,7 @@ config = {
     'load_preprocessed_dataframe_of_test_data': True,
     'filename_exisiting_preprocessed_df_of_test_data': 'test_df_preprocessed_features',
 
+    'load_trained_model': True
+
 
 }
