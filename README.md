@@ -8,11 +8,10 @@ The data used in this project is made available for the [PAN19 Author Profiling:
 
 ## Prerequisites
 
-- Pandas
-- scikit-learn
-- Pickle
-- Matplotlib
-- NLTK
+- [Pandas](https://pandas.pydata.org/)
+- [scikit-learn](https://scikit-learn.org/)
+- [Matplotlib](https://matplotlib.org/)
+- [NLTK](https://www.nltk.org/)
 
 Packages can be installed using [pip](https://pypi.org/project/pip/).
 
