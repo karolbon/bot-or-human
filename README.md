@@ -14,7 +14,7 @@ The data used in this project is made available for the [PAN19 Author Profiling:
 - Matplotlib
 - NLTK
 
-Packages can be installed using [pip](from xml.dom import minidom).
+Packages can be installed using [pip](https://pypi.org/project/pip/).
 
 Example:
 
