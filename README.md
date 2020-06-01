@@ -24,6 +24,12 @@ pip install scikit-learn
 ## Architecture
 ![Overall system architecture](/Architecture.png)
 
+`preprocessing/`contains code for preprocsessing of the raw data. The models are written in `models.py`, where scikit-learn models are encapsulated providing potensial futher developend extending the system. `main.py` consists the main method and run the whole system by navigating to the root folder and execute following command:
+
+```python
+python main.py
+```
+
 ## Configuration
 
 The project is configured using the `config.py` file and enable step by step development creating checkpoints. Decreasing run time aspreprocessing and training can be saved, thus avoiding tedious latency. In the `config.py` file, set `read_and_save_raw_data_as_dataframe`, `load_preprocessed_dataframe`, `load_preprocessed_dataframe_of_test_data` and `load_trained_model` to `False` in order to do all processing from scratch.
