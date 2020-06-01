@@ -22,6 +22,9 @@ Example:
 pip install scikit-learn
 ```
 
+## Architecture
+![Overall system architecture](architecture.png)
+
 ## Configuration
 
 The project is configured using the `config.py` file and enable step by step development creating checkpoints. Decreasing run time aspreprocessing and training can be saved, thus avoiding tedious latency. In the `config.py` file, set `read_and_save_raw_data_as_dataframe`, `load_preprocessed_dataframe`, `load_preprocessed_dataframe_of_test_data` and `load_trained_model` to `False` in order to do all processing from scratch.
