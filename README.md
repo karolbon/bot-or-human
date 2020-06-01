@@ -23,7 +23,7 @@ pip install scikit-learn
 ```
 
 ## Architecture
-![Overall system architecture](architecture.png)
+![Overall system architecture](/Architecture.png)
 
 ## Configuration
 
