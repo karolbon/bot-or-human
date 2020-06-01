@@ -31,4 +31,4 @@ The project is configured using the `config.py` file and enable step by step dev
 
 ## Results
 
-The classification results for all the classifiers are printed to the console and confusion matrices are saved in `.png`-format to `results/`.
+The classification results for all the classifiers are printed to the console and confusion matrices are saved in `.png`-format to `results/`. Results for the project show that the SVM classifier and the Random Forest classifier perform clearly better than the Naïve Bayes classifier.  The Random Forest classifier scores highest on both the accuracy and the F1-score, with the SVM classifier scoring 2-3 percentage points lower on those metrics.  It seems that the Naïve Bayes classifier especially struggles in recalling all bot samples. 
