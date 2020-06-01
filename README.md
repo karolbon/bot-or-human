@@ -31,3 +31,9 @@ The project is configured using the `config.py` file and enable step by step dev
 ## Results
 
 The classification results for all the classifiers are printed to the console and confusion matrices are saved in `.png`-format to `results/`. Results for the project show that the SVM classifier and the Random Forest classifier perform clearly better than the Naïve Bayes classifier.  The Random Forest classifier scores highest on both the accuracy and the F1-score, with the SVM classifier scoring 2-3 percentage points lower on those metrics.  It seems that the Naïve Bayes classifier especially struggles in recalling all bot samples. 
+
+## Acknowledgements
+* Alex-just on GitHub for [this](https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1) snippet on how to strip emojis from a string. 
+* MaxU on StackOverflow for answer on [this](https://stackoverflow.com/questions/43577590/adding-sparse-matrix-from-countvectorizer-into-dataframe-with-complimentary-info) question on how to add feature matrix to the dataframe.
+* Alexandre Wrg for providing code on textual features in [this](https://towardsdatascience.com/how-i-improved-my-text-classification-model-with-feature-engineering-98fbe6c13ef3) blogpost. 
+* Paolo Rosso and Francisco Rangel for assistance in accessing the dataset. 
